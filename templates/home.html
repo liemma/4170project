@@ -2,4 +2,13 @@
 
 {% block content %}
     <p>home</p>
+    <form action="{{ url_for('piano_basics') }}">
+        <button type="submit">start</button>
+    </form>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+          document.querySelector(".home-link").classList.add("active");
+        });
+    </script>
 {% endblock %}

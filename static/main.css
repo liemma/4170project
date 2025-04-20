@@ -3,3 +3,8 @@
     padding-bottom:  10px;
     color: blue;
 }
+
+.nav-link.active {
+    font-weight: bold;
+    border-bottom: 2px solid black;
+}

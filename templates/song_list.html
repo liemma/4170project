@@ -1,7 +1,11 @@
 {% extends "layout.html" %}
 
 {% block content %}
+    <b>song list</b>
 
-<b>song list</b>
-
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+        document.querySelector(".song-link").classList.add("active");
+        });
+    </script>
 {% endblock %}
