@@ -1,41 +1,28 @@
 from flask import Flask
 from flask import render_template
 from flask import Response, request, jsonify
-app = Flask(__name__)
+from flask import redirect, url_for
+app = Flask(__name__, static_folder="static")
 
 
-current_id = 2
-data = [
-    {
-        "id": 1,
-        "name": "michael scott"
-    },
-    {
-        "id": 2,
-        "name": "jim halpert"
-    },
-]
 
 # ROUTES
 
-@app.route('/hi')
-def hello():
-   return 'Hi hi hi hi hi hi hi hi hi'
-
-
 @app.route('/')
-def hello_world():
-   return render_template('hello_world.html')   
+def home():
+    return render_template("home.html")
 
+@app.route('/piano_basics')
+def piano_basics():
+    return render_template("piano_basics.html")
 
-@app.route('/hello/<name>')
-def hello_name(name=None):
-    return render_template('hello_name.html', name=name) 
+@app.route('/song_list')
+def song_list():
+    return render_template("song_list.html")
 
-
-@app.route('/people')
-def people():
-    return render_template('people.html', data=data)  
+@app.route('/practice')
+def practice():
+    return render_template("practice.html")
 
 
 # AJAX FUNCTIONS

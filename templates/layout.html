@@ -4,7 +4,7 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-     <link rel="icon" href="data:,">
+    <link rel="icon" href="data:,">
 
 <!-- jquery -->
   <script src="http://code.jquery.com/jquery-3.3.1.min.js"></script>
@@ -14,28 +14,24 @@
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
 
-
+  <!-- css and js -->
   <link rel="stylesheet" href="{{url_for('static', filename='main.css')}}">
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
 
-
-
-    <title>People</title>
+    <title>UI Design Final Project</title>
   </head>
   <body>
-    
-
-    
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <div class="container">
-    <a class="navbar-brand" href="/hi">People</a>
+    <a class="navbar-brand" href="{{ url_for('home') }}">Home</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
       <div class="navbar-nav">
-        <a class="nav-link" href="/">Hello World</a>
-        <a class="nav-link" href="/hello/class">Hello Name</a>
-        <a class="nav-link" href="/people">People</a>
+        <a class="nav-link" href="{{ url_for('piano_basics')}}">Piano Basics</a>
+        <a class="nav-link" href="{{ url_for('song_list')}}">Song List</a>
+        <a class="nav-link" href="{{ url_for('practice')}}">Practice</a>
       </div>
     </div>
   </div>
