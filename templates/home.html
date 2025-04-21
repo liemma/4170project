@@ -1,10 +1,14 @@
 {% extends "layout.html" %}
 
 {% block content %}
-    <p>home</p>
+<div class="text-center mt-5">
+    <h1 class="display-4">Learn to Play the Piano</h1>
     <form action="{{ url_for('piano_basics') }}">
-        <button type="submit">start</button>
+      <button type="submit" class="btn btn-outline-dark mt-4">Start</button>
     </form>
+  </div>
+  
+  <div class="piano mt-5" id="piano"></div>
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
