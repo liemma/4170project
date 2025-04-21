@@ -1,11 +1,21 @@
 {% extends "layout.html" %}
 
 {% block content %}
-    <b>song list</b>
-
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-        document.querySelector(".song-link").classList.add("active");
-        });
-    </script>
+<div class="text-center mt-5">
+  <h1 class="mb-5">Choose a Song</h1>
+  <div class="d-flex justify-content-center gap-5 flex-wrap" style="gap: 100px !important;">
+    <div class="text-center">
+      <h4>Happy Birthday</h4>
+      <a href="{{ url_for('learn_song', song='happy_birthday') }}">
+        <img src="{{ url_for('static', filename='images/happy_birthday.png') }}" class="img-fluid shadow-sm mb-3" style="max-width: 250px;" alt="Happy Birthday Sheet Music">
+      </a>
+    </div>
+    <div class="text-center">
+      <h4>Mary Had a Little Lamb</h4>
+      <a href="{{ url_for('learn_song', song='mary_lamb') }}">
+        <img src="{{ url_for('static', filename='images/mary_lamb.png') }}" class="img-fluid shadow-sm mb-3" style="max-width: 250px;" alt="Mary Had a Little Lamb Sheet Music">
+      </a>
+    </div>
+  </div>
+</div>
 {% endblock %}

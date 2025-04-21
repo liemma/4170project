@@ -2,13 +2,23 @@
 
 {% block content %}
 <div class="text-center mt-4">
-  <h2>What note is missing?</h2>
-  <img src="{{ url_for('static', filename='images/' ~ question.image) }}" alt="Missing note quiz" class="my-4" style="max-width: 100%; height: auto;">
+  <h2 id="quiz-title">{{ 'What type of note is this?' if 'type_note' in question.image else 'What note is missing?' }}</h2>
+  <img src="{{ url_for('static', filename='images/' ~ question.image) }}" alt="Quiz question" class="my-4" style="max-width: 100%; height: auto;">
+
+  {% if 'type_note' in question.image %}
+  <div class="mb-3">
+    <button class="btn btn-outline-primary mx-2 type-option">Whole Note</button>
+    <button class="btn btn-outline-primary mx-2 type-option">Half Note</button>
+    <button class="btn btn-outline-primary mx-2 type-option">Quarter Note</button>
+    <button class="btn btn-outline-primary mx-2 type-option">Eighth Note</button>
+  </div>
+  {% endif %}
+
   <input type="hidden" id="correct-answer" value="{{ question.answer }}">
-  <p id="feedback" class="mt-3 fw-bold"></p>
+  <p id="feedback" class="mt-3 fw-bold" style="min-height: 1.5em;"></p>
   <div>
     <a href="{{ url_for('quiz', q=(index - 1) % total) }}" class="btn btn-outline-dark mx-2">Back</a>
-    <a href="{{ url_for('quiz', q=(index + 1) % total) }}" class="btn btn-outline-dark mx-2">Next</a>
+    <a href="{{ url_for('quiz', q=(index + 1) % total) }}" class="btn btn-outline-dark mx-2" id="next-button">Next</a>
   </div>
 </div>
 
@@ -16,7 +26,71 @@
 
 <script>
   document.addEventListener("DOMContentLoaded", function () {
-    document.querySelector(".quiz-link").classList.add("active");
+    document.querySelector(".quiz-link")?.classList.add("active");
+
+    const correctAnswer = document.getElementById("correct-answer")?.value.toUpperCase();
+    const feedback = document.getElementById("feedback");
+    const title = document.getElementById("quiz-title");
+    const nextBtn = document.getElementById("next-button");
+    nextBtn.style.pointerEvents = "none";
+    nextBtn.style.opacity = "0.4";
+
+    // Piano note checking
+    function checkNoteAnswer(notePlayed) {
+      if (!notePlayed) return;
+      const letterOnly = notePlayed[0].toUpperCase();
+      if (letterOnly === correctAnswer) {
+        showCorrect();
+      } else {
+        feedback.textContent = `Try again.`;
+        feedback.style.color = "#c00";
+      }
+    }
+
+    // MCQ type-note checking
+    document.querySelectorAll(".type-option").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const choice = btn.textContent.trim().toUpperCase();
+        if (choice === correctAnswer.toUpperCase()) {
+          showCorrect();
+        } else {
+          feedback.textContent = `Try again.`;
+          feedback.style.color = "#c00";
+        }
+      });
+    });
+
+    function showCorrect() {
+      feedback.textContent = `Correct!`;
+      feedback.style.color = "green";
+      title.textContent = "Correct!";
+      nextBtn.style.pointerEvents = "auto";
+      nextBtn.style.opacity = "1";
+    }
+
+    document.addEventListener("keydown", (e) => {
+      const keyToNote = {
+        '1': 'C4', '2': 'D4', '3': 'E4', '4': 'F4', '5': 'G4',
+        '6': 'A4', '7': 'B4', '8': 'C5', '9': 'D5', '0': 'E5',
+        'q': 'F5', 'w': 'G5'
+      };
+      const note = keyToNote[e.key];
+      if (note) checkNoteAnswer(note);
+    });
+
+    const observer = new MutationObserver(() => {
+      const keys = document.querySelectorAll(".white-key");
+      if (keys.length > 0) {
+        keys.forEach(key => {
+          key.addEventListener("click", () => {
+            const note = key.dataset.note;
+            if (note) checkNoteAnswer(note);
+          });
+        });
+        observer.disconnect();
+      }
+    });
+    observer.observe(document.getElementById("piano"), { childList: true, subtree: true });
   });
 </script>
 {% endblock %}
