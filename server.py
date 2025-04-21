@@ -11,7 +11,7 @@ quiz_questions = [
     {"image": "type_note_2.png", "answer": "quarter note"},
 ]
 
-song_list = {
+songs = {
     "1": {
         "title": "Mary Had a Little Lamb",
         "image": "images/mary_lamb.png",
@@ -20,7 +20,8 @@ song_list = {
             "images/mary_measures_2.png",
             "images/mary_measures_3.png",
             "images/mary_measures_4.png"
-        ]
+        ], 
+        "description": "This beginner-friendly piece uses notes like E, D, C, and G to create a gentle and memorable melody. Fun fact: it shares its tune with Twinkle Twinkle Little Star, making it a great way to learn familiar patterns early on.",
     },
     "2": {
         "title": "Happy Birthday",
@@ -30,8 +31,7 @@ song_list = {
             "images/happy_measures_2.png",
             "images/happy_measures_3.png"
         ],
-        "description": "It’s a great piece to learn for beginners. Fun fact: This is also the tune of Twinkle Twinkle Little Star",
-        "song_notes": "The primary notes in this song are E, D, C, G",
+        "description": "This cheerful tune is built on simple notes like G, A, C, B, D, and F. It’s a great piece for beginners to practice smooth transitions between intervals—and perfect for birthday celebrations!",
     }
 }
 
@@ -52,14 +52,27 @@ def song_list():
 # have argument
 @app.route('/learn_song')
 def learn_song():
-    song_param = request.args.get("song")
+    song_id = request.args.get("song")
+    song = songs.get(song_id)
 
-    song_title = {
-        "mary_lamb": "Mary Had a Little Lamb",
-        "happy_birthday": "Happy Birthday"
-    }.get(song_param)
+    if not song:
+        return render_template("learn_song.html", song_title=None)
 
-    return render_template("learn_song.html", song_title=song_title)
+    return render_template(
+        "learn_song.html",
+        song_title=song["title"],
+        song_image=song["image"],
+        song_description=song["description"],
+        song_param=song_id
+    )
+
+@app.route("/learn_song_step")
+def learn_song_step():
+    song_id = request.args.get("song")
+    step = int(request.args.get("step", 1))
+
+    # TODO: load song data and measures
+    return f"You are viewing step {step} of song {song_id}"
 
 
 @app.route('/practice')
