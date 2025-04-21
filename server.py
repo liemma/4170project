@@ -4,7 +4,12 @@ from flask import Response, request, jsonify
 from flask import redirect, url_for
 app = Flask(__name__, static_folder="static")
 
-
+quiz_questions = [
+    {"image": "missing_note_1.png", "answer": "F"},
+    {"image": "missing_note_2.png", "answer": "C"},
+    {"image": "type_note_1.png", "answer": "half note"},
+    {"image": "type_note_2.png", "answer": "quarter note"},
+]
 
 # ROUTES
 
@@ -24,9 +29,13 @@ def song_list():
 def practice():
     return render_template("practice.html")
 
-@app.route('/quiz')
+@app.route("/quiz", methods=["GET", "POST"])
 def quiz():
-    return render_template("quiz.html")
+    index = int(request.args.get("q", 0))  # default to 0 if missing
+    index = index % len(quiz_questions)  # wrap around
+    question = quiz_questions[index]
+    return render_template("quiz.html", question=question, index=index, total=len(quiz_questions))
+
 
 
 # AJAX FUNCTIONS
