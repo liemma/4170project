@@ -62,6 +62,7 @@ basics = {
 lessons = {
     "1": {
         "id": "1",
+        "song_id": "2",
         "title": "Happy Birthday (first measures 1 & 2)",
         "image": "images/happy_measure_1.png",
         "first_note": "5",
@@ -70,6 +71,7 @@ lessons = {
     },
     "2": {
         "id": "2",
+        "song_id": "2",
         "title": "Happy Birthday (measures 3 & 4)",
         "image": "images/happy_measure_2.png",
         "first_note": "6",
@@ -78,6 +80,7 @@ lessons = {
     },
     "3": {
         "id": "3",
+        "song_id": "2",
         "title": "Happy Birthday (measures 5 & 6)",
         "image": "images/happy_measure_3.png",
         "first_note": "w",
@@ -86,16 +89,18 @@ lessons = {
     },
     "4": {
         "id": "4",
+        "song_id": "2",
         "title": "Happy Birthday (measures 7 & 8)",
         "image": "images/happy_measure_4.png",
         "first_note": "0",
         "text": "Highlighted is the first note: high E. Play these two measures.",
-        "next_lesson": "end"
+        "next_lesson": "quiz"
     },
 
     # mary had a little lamb start
     "5": {
         "id": "5",
+        "song_id": "1",
         "title": "Mary Had A Little Lamb (measures 1 & 2)",
         "image": "images/mary_measure_1.png",
         "first_note": "3",
@@ -105,6 +110,7 @@ lessons = {
 
     "6": {
         "id": "6",
+        "song_id": "1",
         "title": "Mary Had A Little Lamb (measures 3 & 4)",
         "image": "images/mary_measure_2.png",
         "first_note": "2",
@@ -114,6 +120,7 @@ lessons = {
 
     "7": {
         "id": "7",
+        "song_id": "1",
         "title": "Mary Had A Little Lamb (measures 5 & 6)",
         "image": "images/mary_measure_3.png",
         "first_note": "3",
@@ -122,6 +129,7 @@ lessons = {
     },
     "8": {
         "id": "8",
+        "song_id": "1",
         "title": "Mary Had A Little Lamb (measures 7 & 8)",
         "image": "images/mary_measure_4.png",
         "first_note": "2",
@@ -130,6 +138,7 @@ lessons = {
     },
     "9": {
         "id": "9",
+        "song_id": "1",
         "title": "Mary Had A Little Lamb (measures 9-12)",
         "image": "images/mary_measure_5.png",
         "first_note": "3",
@@ -138,11 +147,12 @@ lessons = {
     },
     "10": {
         "id": "10",
+        "song_id": "1",
         "title": "Mary Had A Little Lamb (measures 13-16)",
         "image": "images/mary_measure_6.png",
         "first_note": "3",
         "text": "Now moving on to the next fourt measures! We already learned this, so this should be pretty easy!",
-        "next_lesson": "end"
+        "next_lesson": "quiz"
     },
 
 }
@@ -166,7 +176,10 @@ def piano_basics(step):
 def song_list():
     return render_template("song_list.html")
 
-# have argument
+@app.route('/practice_list')
+def practice_list():
+    return render_template("song_list.html")
+
 @app.route('/learn_song')
 def learn_song():
     song_id = request.args.get("song")
@@ -175,35 +188,104 @@ def learn_song():
     if not song:
         return render_template("learn_song.html", song_title=None)
 
+    # map song_id to route param used elsewhere
+    song_id_to_param = {
+        "1": "mary_lamb",
+        "2": "happy_birthday"
+    }
+    song_param = song_id_to_param.get(song_id)
+
+    if not song_param:
+        return redirect(url_for("song_list"))
+
     return render_template(
         "learn_song.html",
         song_title=song["title"],
         song_image=song["image"],
         song_description=song["description"],
-        song_param=song_id
+        song_param=song_param
     )
+
 
 @app.route("/learn/<step>")
 def learn(step):
-    lesson = lessons.get(step)  # or whichever dict you're using (e.g. 'mary_lessons')
-
+    lesson = lessons.get(step)
     if not lesson:
         return redirect(url_for("song_list"))
 
-    return render_template("learn.html", lesson=lesson)
+    # map song_id to song_param (used in routes)
+    song_id_to_param = {
+        "1": "mary_lamb",
+        "2": "happy_birthday"
+    }
+    song_param = song_id_to_param.get(str(lesson.get("song_id")))  # ensure string key
+
+    if not song_param:
+        return redirect(url_for("song_list"))
+
+    # If next step is quiz, go to intro screen first
+    if lesson.get("next_lesson") == "quiz":
+        return redirect(url_for("practice_intro", song=song_param))
+
+    return render_template("learn.html", lesson=lesson, song_param=song_param)
 
 
 
-@app.route('/practice')
-def practice():
+@app.route('/practice_intro')
+def practice_intro():
+    song_param = request.args.get("song")
+    
+    if not song_param:
+        return redirect(url_for('song_list'))
+
+    song_map = {
+        "mary_lamb": {
+            "title": "Mary Had a Little Lamb",
+            "id": "1"
+        },
+        "happy_birthday": {
+            "title": "Happy Birthday",
+            "id": "2"
+        }
+    }
+
+    song_info = song_map.get(song_param)
+    if not song_info:
+        return redirect(url_for('song_list'))
+
+    return render_template(
+        "practice_intro.html",
+        song_title=song_info["title"],
+        song_param=song_param
+    )
+
+@app.route('/practice_play')
+def practice_play():
     song_param = request.args.get("song")
 
-    song_title = {
-        "happy_birthday": "Happy Birthday",
-        "mary_lamb": "Mary Had a Little Lamb"
-    }.get(song_param, None)
+    if not song_param:
+        return redirect(url_for('song_list'))
 
-    return render_template("practice.html", song_title=song_title)
+    song_map = {
+        "mary_lamb": {
+            "title": "Mary Had a Little Lamb",
+            "id": "1"
+        },
+        "happy_birthday": {
+            "title": "Happy Birthday",
+            "id": "2"
+        }
+    }
+
+    song_info = song_map.get(song_param)
+    if not song_info:
+        return redirect(url_for('song_list'))
+
+    return render_template(
+        "practice_play.html",
+        song_title=song_info["title"],
+        song_param=song_param
+    )
 
 
 @app.route("/quiz/<int:index>")

@@ -1,0 +1,80 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    document.querySelector(".practice-link")?.classList.add("active");
+  });
+</script>
+
+<div class="text-center mt-4">
+  <h1>{{ song_title }}</h1>
+
+  <div class="my-3">
+    <img src="{{ url_for('static', filename='images/' + song_param + '.png') }}" alt="Sheet Music" class="img-fluid" style="max-height: 250px;">
+  </div>
+
+  <p class="lead">Now try to play the full song using your number keys below!</p>
+  <p id="feedback" class="fw-bold mt-2" style="min-height: 1.5em;"></p>
+
+  <div class="piano mt-4" id="piano" data-song="{{ song_param }}"></div>
+
+  <div class="mt-4 d-none" id="completion-options">
+    <p class="fw-bold">🎉 Great job! You finished playing the song.</p>
+    <p id="accuracy-summary"></p>
+    <a href="{{ url_for('practice_intro', song=song_param) }}" class="btn btn-outline-dark mx-2">Practice Again</a>
+    <a href="{{ url_for('song_list') }}" class="btn btn-outline-dark mx-2">Back to Songs</a>
+  </div>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const feedback = document.getElementById("feedback");
+    const completion = document.getElementById("completion-options");
+    const accuracySummary = document.getElementById("accuracy-summary");
+    const song = document.getElementById("piano").dataset.song;
+
+    const correctSequences = {
+      mary_lamb: ["3", "2", "1", "2", "3", "3", "3", "2", "2", "2", "3", "5", "5",
+        "3", "2", "1", "2", "3", "3", "3", "3", "2", "2", "3", "2", "1",
+        "3", "2", "1", "2", "3", "3", "3", "2", "2", "2", "3", "5", "5",
+        "3", "2", "1", "2", "3", "3", "3", "3", "2", "2", "3", "2", "1"
+      ],
+      happy_birthday: ["5", "5", "6", "5", "8", "7", "5", "5", "6", "5", "9", "8",
+        "5", "5", "w", "0", "8", "7", "6", "q", "q", "0", "8", "9", "8"
+      ]
+    };
+
+    const expected = correctSequences[song] || [];
+    let index = 0;
+    let total = expected.length;
+    let mistakes = 0;
+
+    const updateFeedback = (text, color) => {
+      feedback.textContent = text;
+      feedback.style.color = color;
+    };
+
+    const handleInput = (key) => {
+      if (index >= total) return;
+      if (key === expected[index]) {
+        index++;
+        updateFeedback("Correct!", "green");
+        if (index === total) {
+          updateFeedback("You played the whole song!", "green");
+          const accuracy = (((total - mistakes) / total) * 100).toFixed(1);
+          accuracySummary.innerHTML = `Accuracy: ${accuracy}%<br>Mistakes: ${mistakes}`;
+          completion.classList.remove("d-none");
+        }
+      } else {
+        mistakes++;
+        updateFeedback("Try again!", "red");
+      }
+    };
+
+    document.addEventListener("keydown", (e) => {
+      if (/^[0-9qwerty]$/.test(e.key)) handleInput(e.key);
+    });
+  });
+</script>
+{% endblock %}

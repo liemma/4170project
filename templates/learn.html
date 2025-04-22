@@ -37,7 +37,7 @@
     {% endif %}
 
     {% if lesson.next_lesson == "quiz" %}
-      <a class="btn btn-outline-dark" href="{{ url_for('quiz', index=0) }}">Take the Quiz</a>
+      <a class="btn btn-outline-dark" href="{{ url_for('practice_intro', song=song_param) }}">Take the Quiz</a>
     {% elif lesson.next_lesson == "song_list" %}
       <a class="btn btn-outline-dark" href="{{ url_for('song_list') }}">See Songs</a>
     {% else %}

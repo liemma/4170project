@@ -17,7 +17,10 @@
 
     <p>Let’s learn how to play {{ song_title }} on the Piano!</p>
     <p class="mt-3">{{ song_description }}</p>
-    <a href="{{ url_for('learn', step=5 if song_title == 'Mary Had a Little Lamb' else 1) }}" class="btn btn-outline-dark mt-3">Get Learning!</a>
+    <div class="d-flex flex-column flex-md-row justify-content-center gap-3">
+      <a href="{{ url_for('learn', step=5 if song_param == 'mary_lamb' else 1) }}" class="btn btn-outline-dark mt-3">Get Learning</a>
+      <a href="{{ url_for('practice_play') }}?song={{ song_param }}" class="btn btn-dark mt-3">Play the Song</a>
+    </div>
   </div>
 </div>
 {% else %}

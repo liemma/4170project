@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    document.querySelector(".practice-link")?.classList.add("active");
+  });
+</script>
+
+<div class="text-center mt-5">
+  <h1 class="mb-4">{{ song_title }}</h1>
+  <p class="lead">Congratulations! You learned the entire song!<br>
+    Do you want to try playing the whole thing, or go back to learning it again?
+  </p>
+
+  <div class="d-flex justify-content-center gap-4 my-4">
+    <a href="{{ url_for('learn', step=5 if song_param == 'mary_lamb' else 1) }}" class="btn btn-outline-dark">Learn Again</a>
+    <a href="{{ url_for('practice_play', song=song_param) }}" class="btn btn-outline-dark">Play the Song</a>
+  </div>
+
+  <div class="piano mt-5" id="piano"></div>
+</div>
+{% endblock %}
