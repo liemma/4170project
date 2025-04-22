@@ -1,0 +1,48 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    document.querySelector(".learn-link")?.classList.add("active");
+  });
+</script>
+
+<div class="container mt-5">
+  <h1 class="text-center mb-4">{{ lesson.title }}</h1>
+
+  <div class="row align-items-center mb-4">
+    {% if lesson.image %}
+    <div class="col-md-6 text-center">
+      <img src="{{ url_for('static', filename=lesson.image) }}" class="img-fluid" style="max-height: 300px;">
+    </div>
+    <div class="col-md-6">
+      <p class="lead">{{ lesson.text | replace('\n', '<br>') | safe }}</p>
+    </div>
+    {% else %}
+    <div class="col-12">
+      <p class="lead text-center">{{ lesson.text | replace('\n', '<br>') | safe }}</p>
+    </div>
+    {% endif %}
+  </div>
+
+  {% if lesson.first_note %}
+  <div class="piano mb-4" id="piano"></div>
+  {% endif %}
+
+  <div class="d-flex justify-content-between">
+    {% if lesson.id != "1" %}
+      <a class="btn btn-outline-dark" href="{{ url_for('learn', step=(lesson.id | int - 1)) }}">Relearn</a>
+    {% else %}
+      <div></div>
+    {% endif %}
+
+    {% if lesson.next_lesson == "quiz" %}
+      <a class="btn btn-outline-dark" href="{{ url_for('quiz', index=0) }}">Take the Quiz</a>
+    {% elif lesson.next_lesson == "song_list" %}
+      <a class="btn btn-outline-dark" href="{{ url_for('song_list') }}">See Songs</a>
+    {% else %}
+      <a class="btn btn-outline-dark" href="{{ url_for('learn', step=lesson.next_lesson) }}">Next</a>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

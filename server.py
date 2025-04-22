@@ -35,7 +35,31 @@ songs = {
     }
 }
 
-lesson = {
+basics = {
+    "1": {
+        "id": "1",
+        "title": "Learn the Notes",
+        "image": "",
+        "text": "Pianos are made up of scales, which come in sets of CDEFGAB. \n The black keys are sharps or flats, which are a half-step higher or lower than the white keys. \n The white keys are labeled with the notes below.",
+        "next_lesson": "2"
+    },
+    "2": {
+        "id": "2",
+        "title": "Sheet Music",
+        "image": "images/sheet_music.png",
+        "text": "Sheet music is a written form of music that tells you:\n🎵 What notes to play (like C, D, E… placed on a staff of lines)\n⏱️ How long to play them (whole notes, half notes, quarter notes, etc.)\n🎹 How fast to play (called the tempo)",
+        "next_lesson": "quiz"
+    },
+    "3":{
+        "id": "3",
+        "title": "How to Play",
+        "image": "",
+        "text": "We turned your computer keyboard into a piano keyboard! Your keys in the number row of your keyboard will control the piano keys labeled below. Try it now!",
+        "next_lesson": "song_list"
+    }
+}
+
+lessons = {
     "1": {
         "id": "1",
         "title": "Happy Birthday (first measures 1 & 2)",
@@ -109,7 +133,7 @@ lesson = {
         "title": "Mary Had A Little Lamb (measures 9-12)",
         "image": "images/mary_measure_5.png",
         "first_note": "3",
-        "text": "Now moving on to the next fourt measures! We already learned this, so this should be pretty easy!",
+        "text": "Now moving on to the next four measures! We already learned this, so this should be pretty easy!",
         "next_lesson": "10"
     },
     "10": {
@@ -124,18 +148,19 @@ lesson = {
 }
 
 
-
-
-
 # ROUTES
 
 @app.route('/')
 def home():
     return render_template("home.html")
 
-@app.route('/piano_basics')
-def piano_basics():
-    return render_template("piano_basics.html")
+@app.route('/piano_basics/<step>')
+def piano_basics(step):
+    lesson = basics.get(step)
+    if not lesson:
+        return redirect(url_for("piano_basics"))  # or home if you prefer
+
+    return render_template("piano_basics.html", lesson=lesson)
 
 @app.route('/song_list')
 def song_list():
@@ -158,13 +183,15 @@ def learn_song():
         song_param=song_id
     )
 
-@app.route("/learn")
-def learn():
-    song_id = request.args.get("song")
-    step = int(request.args.get("step", 1))
+@app.route("/learn/<step>")
+def learn(step):
+    lesson = lessons.get(step)  # or whichever dict you're using (e.g. 'mary_lessons')
 
-    # TODO: load song data and measures
-    return f"You are viewing step {step} of song {song_id}"
+    if not lesson:
+        return redirect(url_for("song_list"))
+
+    return render_template("learn.html", lesson=lesson)
+
 
 
 @app.route('/practice')
