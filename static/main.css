@@ -9,6 +9,12 @@
     border-bottom: 2px solid black;
 }
 
+.song-title {
+    font-family: 'Playfair Display', serif;
+    font-weight: 600;
+  }
+  
+
 .piano {
     margin: 40px auto;
     display: flex;

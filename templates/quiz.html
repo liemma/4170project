@@ -17,8 +17,12 @@
   <input type="hidden" id="correct-answer" value="{{ question.answer }}">
   <p id="feedback" class="mt-3 fw-bold" style="min-height: 1.5em;"></p>
   <div>
-    <a href="{{ url_for('quiz', q=(index - 1) % total) }}" class="btn btn-outline-dark mx-2">Back</a>
-    <a href="{{ url_for('quiz', q=(index + 1) % total) }}" class="btn btn-outline-dark mx-2" id="next-button">Next</a>
+    {% if index > 0 %}
+      <a href="{{ url_for('quiz', index=index - 1) }}" class="btn btn-outline-dark mx-2">Back</a>
+    {% endif %}
+
+    <a href="{{ url_for('quiz', index=index + 1) }}" class="btn btn-outline-dark mx-2" id="next-button">Next</a>
+
   </div>
 </div>
 

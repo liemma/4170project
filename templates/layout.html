@@ -16,6 +16,8 @@
 
   <!-- css and js -->
   <link rel="stylesheet" href="{{url_for('static', filename='main.css')}}">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
+
   <script src="{{ url_for('static', filename='script.js') }}"></script>
   
   <script src="{{ url_for('static', filename='layout.js') }}"></script>
@@ -34,7 +36,8 @@
       <div class="navbar-nav">
         <a class="nav-link home-link" href="{{ url_for('home') }}">Home</a>
         <a class="nav-link piano-link" href="{{ url_for('piano_basics')}}">Piano Basics</a>
-        <a class="nav-link quiz-link" href="{{ url_for('quiz')}}">Quiz</a>
+        <a class="nav-link quiz-link" href="{{ url_for('quiz', index=0) }}">Quiz</a>
+
         <a class="nav-link song-link" href="{{ url_for('song_list')}}">Song List</a>
         <a class="nav-link learn-link" href="{{ url_for('learn_song', song='1') }}">Learn Song</a>
         <a class="nav-link practice-link" href="{{ url_for('practice')}}">Practice</a>
