@@ -17,7 +17,18 @@ document.addEventListener("DOMContentLoaded", function () {
       { note: 'G5', key: 'w' }
     ];
   
-    const blackKeyIndices = [0, 1, 3, 4, 5, 7, 8, 10];
+    const blackKeyMap = {
+      0: 'C#',
+      1: 'D#',
+      3: 'F#',
+      4: 'G#',
+      5: 'A#',
+      7: 'C#',
+      8: 'D#',
+      10: 'F#'
+    };
+  
+    const keyWidth = 40;
   
     whiteKeys.forEach(({ note, key }, index) => {
       const whiteKey = document.createElement("div");
@@ -32,10 +43,10 @@ document.addEventListener("DOMContentLoaded", function () {
       });
       piano.appendChild(whiteKey);
   
-      if (blackKeyIndices.includes(index)) {
+      if (blackKeyMap[index] !== undefined) {
         const blackKey = document.createElement("div");
         blackKey.className = "black-key";
-        blackKey.style.left = `${(index + 1) * 40 - 12.5}px`;
+        blackKey.style.left = `${index * keyWidth + keyWidth - 12.5}px`;
         piano.appendChild(blackKey);
       }
     });

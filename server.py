@@ -48,14 +48,14 @@ basics = {
         "title": "Sheet Music",
         "image": "images/sheet_music.png",
         "text": "Sheet music is a written form of music that tells you:\n🎵 What notes to play (like C, D, E… placed on a staff of lines)\n⏱️ How long to play them (whole notes, half notes, quarter notes, etc.)\n🎹 How fast to play (called the tempo)",
-        "next_lesson": "quiz"
+        "next_lesson": "3"
     },
-    "3":{
+    "3": {
         "id": "3",
         "title": "How to Play",
         "image": "",
-        "text": "We turned your computer keyboard into a piano keyboard! Your keys in the number row of your keyboard will control the piano keys labeled below. Try it now!",
-        "next_lesson": "song_list"
+        "text": "We turned your computer keyboard into a piano keyboard! Your keys in the number row of your keyboard will control the piano keys labeled below. Try it now! \n Let’s review some of what we've learned so far. Use the piano below to answer any note questions.",
+        "next_lesson": "quiz"
     }
 }
 
@@ -178,7 +178,7 @@ def song_list():
 
 @app.route('/practice_list')
 def practice_list():
-    return render_template("song_list.html")
+    return render_template("practice_list.html")
 
 @app.route('/learn_song')
 def learn_song():
