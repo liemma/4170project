@@ -52,6 +52,13 @@ basics = {
     },
     "3": {
         "id": "3",
+        "title": "Types of Notes",
+        "image": "images/types_of_notes.png",
+        "text": "On sheet music, you’ll see different types of notes.\nEach type determines how many beats you hold the note for.\nThese are the note types you’ll encounter later on.",
+        "next_lesson": "4"
+    },
+    "4": {
+        "id": "4",
         "title": "How to Play",
         "image": "",
         "text": "We turned your computer keyboard into a piano keyboard! Your keys in the number row of your keyboard will control the piano keys labeled below. Try it now! \n Let’s review some of what we've learned so far. Use the piano below to answer any note questions.",

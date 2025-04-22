@@ -25,35 +25,27 @@
   <title>UI Design Final Project</title>
   </head>
 
-  <body>
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <div class="container">
-    <!-- <a class="navbar-brand" href="{{ url_for('home') }}">Home</a> -->
-    <!-- <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button> -->
-    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-      <div class="navbar-nav">
-        <a class="nav-link home-link" href="{{ url_for('home') }}">Home</a>
-        <a class="nav-link piano-link" href="{{ url_for('piano_basics', step=1) }}">Piano Basics</a>
-        <a class="nav-link quiz-link" href="{{ url_for('quiz', index=0) }}">Quiz</a>
-
-        <a class="nav-link song-link" href="{{ url_for('song_list')}}">Song List</a>
-        <a class="nav-link learn-link" href="{{ url_for('learn_song', song='1') }}">Learn Song</a>
-        <a class="nav-link practice-link" href="{{ url_for('song_list') }}">Practice</a>
-
+  <body class="bg-light">
+    <!-- <nav class="navbar navbar-expand-lg navbar-light"> -->
+    <nav class="navbar navbar-expand-lg navbar-light" >
+      <div class="container px-5 " style="box-shadow: 0 6px 6px -4px rgba(0, 0, 0, 0.2); border-bottom: 2px solid #ddd;">
+        <div class="collapse navbar-collapse navbar-brand" id="navbarNavAltMarkup">
+          <div class="navbar-nav" style="padding: 10px;">
+            <a class="nav-link home-link" href="{{ url_for('home') }}">Home</a>
+            <a class="nav-link piano-link" href="{{ url_for('piano_basics', step=1) }}">Piano Basics</a>
+            <a class="nav-link quiz-link" href="{{ url_for('quiz', index=0) }}">Quiz</a>
+            <a class="nav-link song-link" href="{{ url_for('song_list')}}">Song List</a>
+            <a class="nav-link learn-link" href="{{ url_for('learn_song', song='1') }}">Learn Song</a>
+            <a class="nav-link practice-link" href="{{ url_for('song_list') }}">Practice</a>
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
-</nav>
+    </nav>
 
     <div class="container">   
         {% block content %}
         {% endblock %}
     </div>
-
-    
-
   </body>
 </html>
 

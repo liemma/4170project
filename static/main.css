@@ -1,7 +1,5 @@
-#hello_div{
-    padding-top:  10px;
-    padding-bottom:  10px;
-    color: blue;
+.body {
+  font
 }
 
 .nav-link.active {
@@ -12,16 +10,15 @@
 .song-title {
     font-family: 'Playfair Display', serif;
     font-weight: 600;
-  }
+}
   
-
-  #piano {
-    position: relative;
-    height: 180px;
-    width: fit-content;
-    display: flex;
-    margin: 0 auto;
-  }
+#piano {
+  position: relative;
+  height: 180px;
+  width: fit-content;
+  display: flex;
+  margin: 0 auto;
+}
   
   .white-key {
     width: 40px;
