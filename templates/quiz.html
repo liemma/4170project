@@ -1,100 +1,53 @@
 {% extends "layout.html" %}
 
 {% block content %}
-<div class="text-center mt-4">
-  <h2 id="quiz-title" class="heading-font">{{ 'What type of note is this?' if 'type_note' in question.image else 'What note is missing?' }}</h2>
-  <img src="{{ url_for('static', filename='images/' ~ question.image) }}" alt="Quiz question" class="my-4" style="max-width: 100%; height: auto;">
-
-  {% if 'type_note' in question.image %}
-  <div class="mb-3">
-    <button class="btn btn-outline-primary mx-2 type-option">Whole Note</button>
-    <button class="btn btn-outline-primary mx-2 type-option">Half Note</button>
-    <button class="btn btn-outline-primary mx-2 type-option">Quarter Note</button>
-    <button class="btn btn-outline-primary mx-2 type-option">Eighth Note</button>
-  </div>
-  {% endif %}
-
-  <input type="hidden" id="correct-answer" value="{{ question.answer }}">
-  <p id="feedback" class="mt-3 fw-bold" style="min-height: 1.5em;"></p>
-  <div>
-    {% if index > 0 %}
-      <a href="{{ url_for('quiz', index=index - 1) }}" class="btn btn-outline-dark mx-2">Back</a>
-    {% endif %}
-
-    <a href="{{ url_for('quiz', index=index + 1) }}" class="btn btn-outline-dark mx-2" id="next-button">Next</a>
-
-  </div>
+<div class="quiz-container text-center mt-4">
+  <h2 id="question">Loading question...</h2>
+  <img id="question-image" src="" alt="Quiz Image" style="max-width: 400px;" />
+  <div id="choices" class="choices-container mt-3"></div>
 </div>
-
-<div class="piano mt-5" id="piano"></div>
 
 <script>
   document.addEventListener("DOMContentLoaded", function () {
-    document.querySelector(".quiz-link")?.classList.add("active");
+    let currentQuestionIndex = 0;
+    let quizData = [];
 
-    const correctAnswer = document.getElementById("correct-answer")?.value.toUpperCase();
-    const feedback = document.getElementById("feedback");
-    const title = document.getElementById("quiz-title");
-    const nextBtn = document.getElementById("next-button");
-    nextBtn.style.pointerEvents = "none";
-    nextBtn.style.opacity = "0.4";
+    function loadQuestion(index) {
+      const questionContainer = document.getElementById("question");
+      const imageContainer = document.getElementById("question-image");
+      const choicesContainer = document.getElementById("choices");
 
-    // Piano note checking
-    function checkNoteAnswer(notePlayed) {
-      if (!notePlayed) return;
-      const letterOnly = notePlayed[0].toUpperCase();
-      if (letterOnly === correctAnswer) {
-        showCorrect();
-      } else {
-        feedback.textContent = `Try again.`;
-        feedback.style.color = "#c00";
-      }
-    }
+      const question = quizData[index];
+      questionContainer.textContent = question.question;
+      imageContainer.src = "{{ url_for('static', filename='images/') }}" + question.image;
 
-    // MCQ type-note checking
-    document.querySelectorAll(".type-option").forEach(btn => {
-      btn.addEventListener("click", () => {
-        const choice = btn.textContent.trim().toUpperCase();
-        if (choice === correctAnswer.toUpperCase()) {
-          showCorrect();
-        } else {
-          feedback.textContent = `Try again.`;
-          feedback.style.color = "#c00";
-        }
-      });
-    });
-
-    function showCorrect() {
-      feedback.textContent = `Correct!`;
-      feedback.style.color = "green";
-      title.textContent = "Correct!";
-      nextBtn.style.pointerEvents = "auto";
-      nextBtn.style.opacity = "1";
-    }
-
-    document.addEventListener("keydown", (e) => {
-      const keyToNote = {
-        '1': 'C4', '2': 'D4', '3': 'E4', '4': 'F4', '5': 'G4',
-        '6': 'A4', '7': 'B4', '8': 'C5', '9': 'D5', '0': 'E5',
-        'q': 'F5', 'w': 'G5'
-      };
-      const note = keyToNote[e.key];
-      if (note) checkNoteAnswer(note);
-    });
-
-    const observer = new MutationObserver(() => {
-      const keys = document.querySelectorAll(".white-key");
-      if (keys.length > 0) {
-        keys.forEach(key => {
-          key.addEventListener("click", () => {
-            const note = key.dataset.note;
-            if (note) checkNoteAnswer(note);
-          });
+      choicesContainer.innerHTML = "";
+      question.choices.forEach(choice => {
+        const button = document.createElement("button");
+        button.textContent = choice;
+        button.className = "btn btn-outline-primary mx-2 my-1";
+        button.addEventListener("click", () => {
+          alert(choice === question.correct ? "Correct!" : "Try again!");
+          if (currentQuestionIndex < quizData.length - 1) {
+            currentQuestionIndex++;
+            loadQuestion(currentQuestionIndex);
+          } else {
+            alert("Quiz complete!");
+          }
         });
-        observer.disconnect();
-      }
-    });
-    observer.observe(document.getElementById("piano"), { childList: true, subtree: true });
+        choicesContainer.appendChild(button);
+      });
+    }
+
+    fetch("{{ url_for('static', filename='quiz_data.json') }}")
+      .then(response => response.json())
+      .then(data => {
+        quizData = data;
+        loadQuestion(currentQuestionIndex);
+      })
+      .catch(error => {
+        console.error("Failed to load quiz data:", error);
+      });
   });
 </script>
 {% endblock %}

@@ -1,0 +1,31 @@
+[
+    {
+      "id": 1,
+      "question": "What is the first note in this melody?",
+      "image": "happy_measure_1.png",
+      "choices": ["C", "G", "E", "F"],
+      "correct": "G"
+    },
+    {
+      "id": 2,
+      "question": "What note is played on the word 'birthday'?",
+      "image": "happy_measure_1.png",
+      "choices": ["A", "G", "C", "F"],
+      "correct": "A"
+    },
+    {
+      "id": 3,
+      "question": "What is the note after the quarter rest?",
+      "image": "happy_measure_2.png",
+      "choices": ["C", "B", "G", "D"],
+      "correct": "C"
+    },
+    {
+      "id": 4,
+      "question": "What note is repeated at the end of the phrase?",
+      "image": "happy_measure_4.png",
+      "choices": ["G", "F", "E", "D"],
+      "correct": "G"
+    }
+  ]
+  
