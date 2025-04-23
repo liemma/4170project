@@ -1,15 +1,21 @@
 from flask import Flask
+from flask import request
 from flask import render_template
 from flask import Response, request, jsonify
 from flask import redirect, url_for
+from datetime import datetime
 app = Flask(__name__, static_folder="static")
 
 quiz_questions = [
-    {"image": "missing_note_1.png", "answer": "F"},
-    {"image": "missing_note_2.png", "answer": "C"},
+    {"image": "missing_note_1.png", "answer": "F4"},
+    {"image": "missing_note_2.png", "answer": "C4"},
     {"image": "type_note_1.png", "answer": "half note"},
     {"image": "type_note_2.png", "answer": "quarter note"},
 ]
+
+activity_log = []
+quiz_answers = {}
+song_log = []
 
 songs = {
     "1": {
@@ -164,6 +170,12 @@ lessons = {
 
 }
 
+def log_user_event(action, data=None):
+    timestamp = datetime.utcnow().isoformat()
+    entry = {"timestamp": timestamp, "action": action}
+    if data:
+        entry.update(data)
+    activity_log.append(entry)
 
 # ROUTES
 
@@ -174,9 +186,8 @@ def home():
 @app.route('/piano_basics/<step>')
 def piano_basics(step):
     lesson = basics.get(step)
-    if not lesson:
-        return redirect(url_for("piano_basics"))  # or home if you prefer
-
+    if lesson:
+        log_user_event("enter_piano_basics", {"step": step})
     return render_template("piano_basics.html", lesson=lesson)
 
 @app.route('/song_list')
@@ -220,23 +231,31 @@ def learn(step):
     if not lesson:
         return redirect(url_for("song_list"))
 
-    # map song_id to song_param (used in routes)
-    song_id_to_param = {
-        "1": "mary_lamb",
-        "2": "happy_birthday"
-    }
-    song_param = song_id_to_param.get(str(lesson.get("song_id")))  # ensure string key
+    song_id_to_param = {"1": "mary_lamb", "2": "happy_birthday"}
+    song_param = song_id_to_param.get(str(lesson.get("song_id")))
 
-    if not song_param:
-        return redirect(url_for("song_list"))
+    log_user_event("enter_learn_song", {"step": step, "song_id": lesson["song_id"]})
 
-    # If next step is quiz, go to intro screen first
-    if lesson.get("next_lesson") == "quiz":
+    if lesson["next_lesson"] == "quiz":
         return redirect(url_for("practice_intro", song=song_param))
 
     return render_template("learn.html", lesson=lesson, song_param=song_param)
 
 
+# View activity log
+@app.route("/activity_log")
+def show_activity_log():
+    return jsonify(activity_log)
+
+# View quiz answers
+@app.route("/quiz_answers")
+def show_quiz_answers():
+    return jsonify(quiz_answers)
+
+# View practice results
+@app.route("/results")
+def practice_results():
+    return jsonify(song_log)
 
 @app.route('/practice_intro')
 def practice_intro():
@@ -295,8 +314,19 @@ def practice_play():
     )
 
 
-@app.route("/quiz/<int:index>")
+@app.route("/quiz/<int:index>", methods=["GET", "POST"])
 def quiz(index):
+    global quiz_answers  # This tells Python to use the global one
+
+    if request.method == "POST":
+        user_answer = request.form.get("answer")
+        if user_answer:
+            quiz_answers[str(index)] = {
+                "answer": user_answer,
+                "timestamp": datetime.now().isoformat()
+            }
+        return redirect(url_for("quiz", index=index + 1))
+
     if index >= len(quiz_questions):
         return redirect(url_for('song_list'))
 
@@ -311,9 +341,17 @@ def quiz(index):
 
 
 # AJAX FUNCTIONS
-
-
-
+@app.route('/store_practice_result', methods=['POST'])
+def store_practice_result():
+    data = request.get_json()
+    song_log.append({
+        "type": "practice_result",
+        "song": data["song"],
+        "accuracy": data["accuracy"],
+        "incorrect_notes": data["incorrect"],
+        "timestamp": datetime.now().isoformat()
+    })
+    return jsonify(success=True)
 
 if __name__ == '__main__':
    app.run(debug = True, port=5001)
