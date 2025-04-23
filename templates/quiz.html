@@ -1,7 +1,6 @@
 {% extends "layout.html" %}
 
 {% block content %}
-<<<<<<< HEAD
 <form method="POST" id="quiz-form">
   <div class="text-center mt-4">
     <h2 id="quiz-title" class="heading-font">
@@ -33,20 +32,10 @@
   <div class="piano mt-5" id="piano"></div>
 </form>
 
-=======
-<div class="quiz-container text-center mt-4">
-  <h2 id="question">Loading question...</h2>
-  <img id="question-image" src="" alt="Quiz Image" style="max-width: 400px;" />
-  <div id="choices" class="choices-container mt-3"></div>
-</div>
-
->>>>>>> 14b1e243c3251f74ec77d906d8497b1a935ab483
 <script>
   document.addEventListener("DOMContentLoaded", function () {
-    let currentQuestionIndex = 0;
-    let quizData = [];
+    document.querySelector(".quiz-link")?.classList.add("active");
 
-<<<<<<< HEAD
     const correctAnswer = document.getElementById("correct-answer").value.toUpperCase();
     const feedback = document.getElementById("feedback");
     const title = document.getElementById("quiz-title");
@@ -96,44 +85,11 @@
             const note = key.dataset.note;
             if (note) checkAnswer(note);
           });
-=======
-    function loadQuestion(index) {
-      const questionContainer = document.getElementById("question");
-      const imageContainer = document.getElementById("question-image");
-      const choicesContainer = document.getElementById("choices");
-
-      const question = quizData[index];
-      questionContainer.textContent = question.question;
-      imageContainer.src = "{{ url_for('static', filename='images/') }}" + question.image;
-
-      choicesContainer.innerHTML = "";
-      question.choices.forEach(choice => {
-        const button = document.createElement("button");
-        button.textContent = choice;
-        button.className = "btn btn-outline-primary mx-2 my-1";
-        button.addEventListener("click", () => {
-          alert(choice === question.correct ? "Correct!" : "Try again!");
-          if (currentQuestionIndex < quizData.length - 1) {
-            currentQuestionIndex++;
-            loadQuestion(currentQuestionIndex);
-          } else {
-            alert("Quiz complete!");
-          }
->>>>>>> 14b1e243c3251f74ec77d906d8497b1a935ab483
         });
-        choicesContainer.appendChild(button);
-      });
-    }
-
-    fetch("{{ url_for('static', filename='quiz_data.json') }}")
-      .then(response => response.json())
-      .then(data => {
-        quizData = data;
-        loadQuestion(currentQuestionIndex);
-      })
-      .catch(error => {
-        console.error("Failed to load quiz data:", error);
-      });
+        observer.disconnect();
+      }
+    });
+    observer.observe(document.getElementById("piano"), { childList: true, subtree: true });
   });
 </script>
 {% endblock %}
