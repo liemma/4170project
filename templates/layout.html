@@ -6,28 +6,38 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" href="data:,">
 
-<!-- jquery -->
-  <script src="http://code.jquery.com/jquery-3.3.1.min.js"></script>
-  <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"></script>  
-  <link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <!-- jquery -->
+    <script src="http://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"></script>  
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
-  <!-- Bootstrap CSS -->
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
 
-  <!-- css and js -->
-  <link rel="stylesheet" href="{{url_for('static', filename='main.css')}}">
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
+    <!-- css and js -->
+    <link rel="stylesheet" href="{{url_for('static', filename='main.css')}}">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
 
-  <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    
+    <script src="{{ url_for('static', filename='layout.js') }}"></script>
   
-  <script src="{{ url_for('static', filename='layout.js') }}"></script>
-  
-  <title>UI Design Final Project</title>
+    <title>UI Design Final Project</title>
+
+    <!-- cantora one and sniglet font -->
+    <link href="https://fonts.googleapis.com/css2?family=Cantora+One&family=Sniglet:wght@400;800&display=swap" rel="stylesheet">
+
+    <style>
+      .heading-font {
+        font-family: 'Cantora One', sans-serif;
+      }
+    </style>
+    
   </head>
 
   <body class="bg-light">
     <!-- <nav class="navbar navbar-expand-lg navbar-light"> -->
-    <nav class="navbar navbar-expand-lg navbar-light" >
+    <nav class="navbar navbar-expand-lg navbar-light heading-font" >
       <div class="container px-5 " style="box-shadow: 0 6px 6px -4px rgba(0, 0, 0, 0.2); border-bottom: 2px solid #ddd;">
         <div class="collapse navbar-collapse navbar-brand" id="navbarNavAltMarkup">
           <div class="navbar-nav" style="padding: 10px;">
@@ -43,12 +53,8 @@
     </nav>
 
     <div class="container">   
-        {% block content %}
-        {% endblock %}
+      {% block content %}
+      {% endblock %}
     </div>
   </body>
 </html>
-
-
-
-

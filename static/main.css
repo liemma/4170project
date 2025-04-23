@@ -1,15 +1,15 @@
-.body {
-  font
+body {
+  font-family: 'Sniglet', sans-serif;
 }
 
 .nav-link.active {
-    font-weight: bold;
-    border-bottom: 2px solid black;
+  font-weight: bold;
+  border-bottom: 2px solid black;
 }
 
 .song-title {
-    font-family: 'Playfair Display', serif;
-    font-weight: 600;
+  font-family: 'Playfair Display', serif;
+  font-weight: 600;
 }
   
 #piano {
@@ -20,33 +20,33 @@
   margin: 0 auto;
 }
   
-  .white-key {
-    width: 40px;
-    height: 180px;
-    background: white;
-    border: 1px solid black;
-    position: relative;
-    z-index: 1;
-    text-align: center;
-    font-weight: bold;
-    display: flex;
+.white-key {
+  width: 40px;
+  height: 180px;
+  background: white;
+  border: 1px solid black;
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  font-weight: bold;
+  font-family: 'Cantora One', sans-serif;
+  display: flex;
   flex-direction: column;
   justify-content: flex-end;
   align-items: center;
   font-size: 14px;
   padding-bottom: 8px; /* adjust for spacing */
-  }
+}
   
-  .black-key {
-    width: 25px;
-    height: 110px;
-    background: black;
-    position: absolute;
-    top: 0;
-    z-index: 2;
-  }
-  
+.black-key {
+  width: 25px;
+  height: 110px;
+  background: black;
+  position: absolute;
+  top: 0;
+  z-index: 2;
+}
   
 .pressed {
-    background-color: limegreen !important;
+  background-color: limegreen !important;
 }

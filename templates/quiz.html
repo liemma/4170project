@@ -2,7 +2,7 @@
 
 {% block content %}
 <div class="text-center mt-4">
-  <h2 id="quiz-title">{{ 'What type of note is this?' if 'type_note' in question.image else 'What note is missing?' }}</h2>
+  <h2 id="quiz-title" class="heading-font">{{ 'What type of note is this?' if 'type_note' in question.image else 'What note is missing?' }}</h2>
   <img src="{{ url_for('static', filename='images/' ~ question.image) }}" alt="Quiz question" class="my-4" style="max-width: 100%; height: auto;">
 
   {% if 'type_note' in question.image %}
