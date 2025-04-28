@@ -24,29 +24,44 @@
   
     <title>UI Design Final Project</title>
 
-    <!-- cantora one and sniglet font -->
-    <link href="https://fonts.googleapis.com/css2?family=Cantora+One&family=Sniglet:wght@400;800&display=swap" rel="stylesheet">
+    <!-- fredoka and sniglet fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&family=Sniglet:wght@400;800&display=swap" rel="stylesheet">
 
     <style>
       .heading-font {
-        font-family: 'Cantora One', sans-serif;
+        font-family: 'Fredoka', sans-serif; 
+        color: #e7c7fc;
+        text-shadow:
+          -3px -3px 2px #766b94, 
+          3px -3px 2px #766b94,
+          -3px  3px 2px #766b94, 
+          3px  3px 2px #766b94;
+
+        font-size: 75px;
+        font-weight: bold;
+      }
+
+      .navbar-text {
+        font-family: 'Fredoka', sans-serif;
+        color: #626262;
+
       }
     </style>
-    
   </head>
 
-  <body class="bg-light">
-    <!-- <nav class="navbar navbar-expand-lg navbar-light"> -->
-    <nav class="navbar navbar-expand-lg navbar-light heading-font" >
-      <div class="container px-5 " style="box-shadow: 0 6px 6px -4px rgba(0, 0, 0, 0.2); border-bottom: 2px solid #ddd;">
-        <div class="collapse navbar-collapse navbar-brand" id="navbarNavAltMarkup">
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-light" >
+      <div class="container px-5" style="box-shadow: 0 6px 6px -4px rgba(0, 0, 0, 0.2); border-bottom: 2px solid #e7c7fc; background-color: #e7c7fc;">
+        <div class="collapse navbar-collapse ml-auto" id="navbarNavAltMarkup">
           <div class="navbar-nav" style="padding: 10px;">
-            <a class="nav-link home-link" href="{{ url_for('home') }}">Home</a>
-            <a class="nav-link piano-link" href="{{ url_for('piano_basics', step=1) }}">Piano Basics</a>
-            <a class="nav-link quiz-link" href="{{ url_for('quiz', index=0) }}">Quiz</a>
-            <a class="nav-link song-link" href="{{ url_for('song_list')}}">Song List</a>
-            <a class="nav-link learn-link" href="{{ url_for('learn_song', song='1') }}">Learn Song</a>
-            <a class="nav-link practice-link" href="{{ url_for('song_list') }}">Practice</a>
+            <a class="nav-link home-link navbar-text" href="{{ url_for('home') }}">Home</a>
+            <a class="nav-link piano-link navbar-text" href="{{ url_for('piano_basics', step=1) }}">Piano Basics</a>
+            <a class="nav-link quiz-link navbar-text" href="{{ url_for('quiz', index=0) }}">Quiz</a>
+            <a class="nav-link song-link navbar-text" href="{{ url_for('song_list')}}">Song List</a>
+            <a class="nav-link learn-link navbar-text" href="{{ url_for('learn_song', song='1') }}">Learn Song</a>
+            <a class="nav-link practice-link navbar-text" href="{{ url_for('song_list') }}">Practice</a>
           </div>
         </div>
       </div>

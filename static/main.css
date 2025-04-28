@@ -1,5 +1,25 @@
 body {
   font-family: 'Sniglet', sans-serif;
+  background-color: #f5e6ff;
+}
+
+.start-button {
+  font-family: 'Sniglet', sans-serif; 
+  background-color: #f5e6ff;
+  color: #6d6189;
+  border-color: #8f7fb6;
+  border-width: 3px;
+  border-radius: 12px; 
+  padding: 10px 20px;
+  font-size: 24px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.start-button:hover {
+  color: #bbaddb;
+  background-color: #fbf4ff;
+  border-color: #bbaddb;
 }
 
 .nav-link.active {
@@ -35,7 +55,7 @@ body {
   justify-content: flex-end;
   align-items: center;
   font-size: 14px;
-  padding-bottom: 8px; /* adjust for spacing */
+  padding-bottom: 8px; 
 }
   
 .black-key {

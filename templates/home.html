@@ -1,10 +1,10 @@
 {% extends "layout.html" %}
 
 {% block content %}
-<div class="text-center mt-5">
+  <div class="text-center mt-5">
     <h1 class="display-4 heading-font">Learn to Play the Piano</h1>
     <form action="{{ url_for('piano_basics', step=1) }}">
-      <button type="submit" class="btn btn-outline-dark mt-4">Start</button>
+      <button type="submit" class="btn btn-outline-dark mt-4 start-button">Start</button>
     </form>
   </div>
   
