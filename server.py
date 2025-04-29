@@ -183,6 +183,10 @@ def log_user_event(action, data=None):
 def home():
     return render_template("home.html")
 
+@app.route('/about')
+def about():
+    return render_template("about.html", about={"title": "About Us"})
+
 @app.route('/piano_basics/<step>')
 def piano_basics(step):
     lesson = basics.get(step)
