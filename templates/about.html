@@ -6,6 +6,7 @@
         document.querySelector(".about-link")?.classList.add("active");
         });
     </script>
+
     <div class="container mt-5">
         <h1 class="text-center mb-4 heading-font">{{ about.title }}</h1>
     </div>
@@ -22,5 +23,8 @@
         Outside of engineering and music, we’re all gamers at heart. This site grew out of our shared love for building cool things and bonding over late-night Valorant queues. Whether you’re learning your first scale or practicing your hundredth song, we hope this project makes piano more playful.
     </p>
 
-    
+        <div class="d-flex justify-content-center mt-4">
+            <a class="btn btn-outline-dark" href="{{ url_for('home') }}">Home</a>
+        </div>
+    </div>
 {% endblock %}
