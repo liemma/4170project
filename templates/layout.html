@@ -54,14 +54,20 @@
   <body>
     <nav class="navbar navbar-expand-lg navbar-light" >
       <div class="container px-5" style="box-shadow: 0 6px 6px -4px rgba(0, 0, 0, 0.2); border-bottom: 2px solid #e7c7fc; background-color: #e7c7fc;">
-        <div class="collapse navbar-collapse ml-auto" id="navbarNavAltMarkup">
-          <div class="navbar-nav" style="padding: 10px;">
+        
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+          <!-- Left-aligned links -->
+          <div class="navbar-nav mr-auto" style="padding: 10px;">
             <a class="nav-link home-link navbar-text" href="{{ url_for('home') }}">Home</a>
             <a class="nav-link piano-link navbar-text" href="{{ url_for('piano_basics', step=1) }}">Piano Basics</a>
             <a class="nav-link quiz-link navbar-text" href="{{ url_for('quiz', index=0) }}">Quiz</a>
             <a class="nav-link song-link navbar-text" href="{{ url_for('song_list')}}">Song List</a>
             <a class="nav-link learn-link navbar-text" href="{{ url_for('learn_song', song='1') }}">Learn Song</a>
             <a class="nav-link practice-link navbar-text" href="{{ url_for('song_list') }}">Practice</a>
+          </div>
+        
+          <!-- Right-aligned link -->
+          <div class="navbar-nav ml-auto" style="padding: 10px;">
             <a class="nav-link about-link navbar-text" href="{{ url_for('about') }}">About</a>
           </div>
         </div>
