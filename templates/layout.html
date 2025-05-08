@@ -7,9 +7,9 @@
     <link rel="icon" href="data:,">
 
     <!-- jquery -->
-    <script src="http://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"></script>  
-    <link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
@@ -17,8 +17,6 @@
     <!-- css and js -->
     <link rel="stylesheet" href="{{url_for('static', filename='main.css')}}">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
-
-    <script src="{{ url_for('static', filename='script.js') }}"></script>
     
     <script src="{{ url_for('static', filename='layout.js') }}"></script>
   
@@ -28,62 +26,39 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&family=Sniglet:wght@400;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-    <style>
-      .heading-font {
-        font-family: 'Fredoka', sans-serif; 
-        color: #e7c7fc;
-        text-shadow:
-          -3px -3px 2px #766b94, 
-          3px -3px 2px #766b94,
-          -3px  3px 2px #766b94, 
-          3px  3px 2px #766b94;
-
-        font-size: 75px;
-        font-weight: bold;
-      }
-
-      .navbar-text {
-        font-family: 'Fredoka', sans-serif;
-        color: #626262;
-        font-size: 17px;
-      }
-
-      #progress-container {
-        background-color: #f0e6fa;
-        border-radius: 10px;
-        margin: 10px;
-      }
-      #progress-container label {
-        font-weight: bold;
-        display: block;
-        margin-top: 10px;
-      }
-    </style>
   </head>
 
   <body>
-    <nav class="navbar navbar-expand-lg navbar-light" >
-      <div class="container px-5" style="box-shadow: 0 6px 6px -4px rgba(0, 0, 0, 0.2); border-bottom: 2px solid #e7c7fc; background-color: #e7c7fc;">
-        
+    <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e7c7fc; box-shadow: 0 6px 6px -4px rgba(0, 0, 0, 0.2); border-bottom: 2px solid #e7c7fc;">
+      <div class="container px-5">
+        <!-- Toggler for mobile view -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" 
+                aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+    
+        <!-- Collapsible nav links -->
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
           <!-- Left-aligned links -->
-          <div class="navbar-nav mr-auto" style="padding: 10px;">
+          <div class="navbar-nav me-auto" style="padding: 10px;">
             <a class="nav-link home-link navbar-text" href="{{ url_for('home') }}">Home</a>
             <a class="nav-link piano-link navbar-text" href="{{ url_for('piano_basics', step=1) }}">Piano Basics</a>
             <a class="nav-link quiz-link navbar-text" href="{{ url_for('quiz', index=0) }}">Quiz</a>
-            <a class="nav-link song-link navbar-text" href="{{ url_for('song_list')}}">Song List</a>
+            <a class="nav-link song-link navbar-text" href="{{ url_for('song_list') }}">Song List</a>
             <a class="nav-link learn-link navbar-text" href="{{ url_for('learn_song', song='1') }}">Learn Song</a>
             <a class="nav-link practice-link navbar-text" href="{{ url_for('song_list') }}">Practice</a>
           </div>
-        
+    
           <!-- Right-aligned link -->
-          <div class="navbar-nav ml-auto" style="padding: 10px;">
+          <div class="navbar-nav ms-auto" style="padding: 10px;">
             <a class="nav-link about-link navbar-text" href="{{ url_for('about') }}">About</a>
           </div>
         </div>
       </div>
     </nav>
+    
 
 
 
