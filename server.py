@@ -164,11 +164,15 @@ lessons = {
         "title": "Mary Had A Little Lamb (measures 13-16)",
         "image": "images/mary_measure_6.png",
         "first_note": "3",
-        "text": "Now moving on to the next fourt measures! We already learned this, so this should be pretty easy!",
+        "text": "Now moving on to the next four measures! We already learned this, so this should be pretty easy!",
         "next_lesson": "quiz"
     },
 
 }
+
+basics_progress = 0
+quiz_progress = 0
+learn_progress = 0
 
 def log_user_event(action, data=None):
     timestamp = datetime.utcnow().isoformat()
@@ -190,9 +194,20 @@ def about():
 @app.route('/piano_basics/<step>')
 def piano_basics(step):
     lesson = basics.get(step)
+
+    # Map lesson step to progress value
+    step_to_progress = {
+        "1": 0,
+        "2": 25,
+        "3": 50,
+        "4": 75
+    }
+    basics_progress = step_to_progress.get(step, 0)
+
     if lesson:
         log_user_event("enter_piano_basics", {"step": step})
-    return render_template("piano_basics.html", lesson=lesson)
+    return render_template("piano_basics.html", lesson=lesson, basics_progress=basics_progress)
+
 
 @app.route('/song_list')
 def song_list():
@@ -240,10 +255,23 @@ def learn(step):
 
     log_user_event("enter_learn_song", {"step": step, "song_id": lesson["song_id"]})
 
-    if lesson["next_lesson"] == "quiz":
-        return redirect(url_for("practice_intro", song=song_param))
+    # Compute progress
+    current_song_id = lesson["song_id"]
+    song_lessons = [l for l in lessons.values() if l["song_id"] == current_song_id]
+    sorted_steps = sorted(song_lessons, key=lambda x: int(x["id"]))
+    total_steps = len(sorted_steps)
+    current_index = next(i for i, l in enumerate(sorted_steps) if l["id"] == step)
+    learn_progress = int((current_index / total_steps) * 100)
 
-    return render_template("learn.html", lesson=lesson, song_param=song_param)
+    # 👇 Don't redirect until *after* this lesson is rendered
+    return render_template(
+        "learn.html",
+        lesson=lesson,
+        song_param=song_param,
+        learn_progress=learn_progress
+    )
+
+
 
 
 # View activity log
@@ -320,7 +348,7 @@ def practice_play():
 
 @app.route("/quiz/<int:index>", methods=["GET", "POST"])
 def quiz(index):
-    global quiz_answers  # This tells Python to use the global one
+    global quiz_answers
 
     if request.method == "POST":
         user_answer = request.form.get("answer")
@@ -335,12 +363,19 @@ def quiz(index):
         return redirect(url_for('song_list'))
 
     question = quiz_questions[index]
+
+    # Compute quiz progress
+    total_questions = len(quiz_questions)
+    quiz_progress = int((index / total_questions) * 100)
+
     return render_template(
         "quiz.html",
         question=question,
         index=index,
-        total=len(quiz_questions)
+        total=total_questions,
+        quiz_progress=quiz_progress
     )
+
 
 
 
