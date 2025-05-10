@@ -5,15 +5,8 @@
   document.addEventListener("DOMContentLoaded", function () {
     document.querySelector(".learn-link")?.classList.add("active");
   });
-  {% set learn_progress = learn_progress %}
-
+  
 </script>
-{% if request.endpoint == "learn" %}
-  <div id="progress-container" style="max-width: 500px; margin: 0 auto; padding: 10px;">
-    <label for="learnProgress">Learn Song Progress: <span>{{ learn_progress }}%</span></label>
-    <progress id="learnProgress" value="{{ learn_progress }}" max="100" style="width: 100%; height: 18px;"></progress>
-  </div>
-{% endif %}
 
 {% if song_title and song_image and song_description %}
 <div class="container mt-5 d-flex flex-column flex-md-row align-items-center justify-content-around">
