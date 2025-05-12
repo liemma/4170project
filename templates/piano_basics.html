@@ -6,14 +6,17 @@
     document.querySelector(".piano-link")?.classList.add("active");
 
     {% set basics_progress = basics_progress %}
+  });
 
 </script>
 
 {% if request.endpoint == "piano_basics" %}
   <div id="progress-container" style="max-width: 500px; margin: 0 auto; padding: 10px;">
     <progress id="pianoProgress" value="{{ basics_progress }}" max="100" style="width: 100%; height: 18px;"></progress>
+    <div style="margin-top: 3px;">{{ basics_progress }}%</div>
   </div>
 {% endif %}
+
 
 
 <div class="container mt-5">
