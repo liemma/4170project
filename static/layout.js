@@ -40,6 +40,12 @@ document.addEventListener("DOMContentLoaded", function () {
         playNote(note);
         whiteKey.classList.add("pressed");
         setTimeout(() => whiteKey.classList.remove("pressed"), 150);
+
+        // 🔥 Quiz feedback
+        const checkAnswer = window.checkAnswer;
+        if (typeof checkAnswer === "function") {
+          checkAnswer(note);  // send the clicked note to the quiz function
+        }
       });
       piano.appendChild(whiteKey);
   

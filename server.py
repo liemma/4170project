@@ -368,13 +368,22 @@ def quiz(index):
     total_questions = len(quiz_questions)
     quiz_progress = int((index / total_questions) * 100)
 
+    # Determine the appropriate "Next" destination
+    if index < len(quiz_questions) - 1:
+        next_lesson_url = url_for("quiz", index=index + 1)
+    else:
+        next_lesson_url = url_for("song_list")
+
+
     return render_template(
         "quiz.html",
         question=question,
         index=index,
         total=total_questions,
-        quiz_progress=quiz_progress
+        quiz_progress=quiz_progress,
+        next_lesson_url=next_lesson_url
     )
+
 
 
 

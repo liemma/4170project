@@ -34,7 +34,9 @@
       {% if index > 0 %}
         <a href="{{ url_for('quiz', index=index - 1) }}" class="btn btn-outline-dark mx-2">Back</a>
       {% endif %}
-      <button type="submit" class="btn btn-outline-dark mx-2" id="next-button">Next</button>
+      <a class="btn btn-outline-dark mx-2" id="next-button" href="{{ next_lesson_url }}">Next</a>
+
+
     </div>
   </div>
 
@@ -52,10 +54,31 @@
     const answerInput = document.getElementById("answer-field");
     nextBtn.disabled = true;
 
-    function checkAnswer(input) {
+    // function checkAnswer(input) {
+    //   if (!input) return;
+    //   if (input.toUpperCase() === correctAnswer) {
+    //     showCorrect();
+    //     answerInput.value = input;
+    //   } else {
+    //     feedback.textContent = "Try again.";
+    //     feedback.style.color = "#c00";
+    //   }
+    // }
+
+    window.checkAnswer = function(input) {
+      const correctAnswer = document.getElementById("correct-answer").value.toUpperCase();
+      const feedback = document.getElementById("feedback");
+      const title = document.getElementById("quiz-title");
+      const nextBtn = document.getElementById("next-button");
+      const answerInput = document.getElementById("answer-field");
+
       if (!input) return;
+
       if (input.toUpperCase() === correctAnswer) {
-        showCorrect();
+        feedback.textContent = "Correct!";
+        feedback.style.color = "green";
+        title.textContent = "Correct!";
+        nextBtn.disabled = false;
         answerInput.value = input;
       } else {
         feedback.textContent = "Try again.";
